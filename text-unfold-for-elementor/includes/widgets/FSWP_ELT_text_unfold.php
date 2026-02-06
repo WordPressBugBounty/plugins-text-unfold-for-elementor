@@ -318,106 +318,118 @@ class FSWP_ELT_text_unfold extends Widget_Base
             'image_style_section',
             [
                 'label'     => esc_html__('Image', 'text-unfold'),
-                'tab'       => Controls_Manager::TAB_STYLE,
+                'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
                 'condition' => [
                     'include_image' => 'yes',
                 ],
             ]
         );
 
+        // Image Border Radius
+        $this->add_responsive_control(
+            'image_border_radius',
+            [
+                'label'      => esc_html__('Image Border Radius', 'text-unfold'),
+                'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem'],
+                'selectors'  => [
+                    '{{WRAPPER}} .fswp-elt--read-more-image-wrapper img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        // Image Box Shadow
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name'     => 'image_box_shadow',
+                'selector' => '{{WRAPPER}} .fswp-elt--read-more-image-wrapper img',
+            ]
+        );
+
+        // Padding
         $this->add_responsive_control(
             'image_padding',
             [
-                'label'       => esc_html__('Image Padding', 'text-unfold'),
-                'type'        => Controls_Manager::DIMENSIONS,
-                'size_units'  => ['px', '%', 'em', 'rem', 'custom'],
-                'device'      => ['desktop', 'tablet', 'mobile'],
-                'selectors'   => [
+                'label'      => esc_html__('Image Padding', 'text-unfold'),
+                'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem'],
+                'selectors'  => [
                     '{{WRAPPER}} .fswp-elt--read-more-image-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
-            ],
+            ]
         );
 
+        // Margin
         $this->add_responsive_control(
             'image_margin',
             [
-                'label'       => esc_html__('Image Margin', 'text-unfold'),
-                'type'        => Controls_Manager::DIMENSIONS,
-                'size_units'  => ['px', '%', 'em', 'rem', 'custom'],
-                'device'      => ['desktop', 'tablet', 'mobile'],
-                'selectors'   => [
+                'label'      => esc_html__('Image Margin', 'text-unfold'),
+                'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem'],
+                'selectors'  => [
                     '{{WRAPPER}} .fswp-elt--read-more-image-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
-            ],
+            ]
         );
 
+        // Width
         $this->add_responsive_control(
             'read_more_image_width',
             [
-                'label' => esc_html__('Width', 'text-unfold'),
-                'type'  => \Elementor\Controls_Manager::SLIDER,
-                'size_units'  => ['px', '%', 'em', 'rem', 'vw', 'custom'],
-                'range' => [
+                'label'      => esc_html__('Width', 'text-unfold'),
+                'type'       => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'em', 'rem', 'vw'],
+                'range'      => [
                     'px' => [
                         'max' => 1000,
                     ],
                 ],
-                'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more-image-wrapper img' => 'width:{{SIZE}}{{UNIT}}',
-                ],
-                'default' => [
-                    'unit' => '%',
+                'selectors'  => [
+                    '{{WRAPPER}} .fswp-elt--read-more-image-wrapper img' => 'width: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
 
+        // Height
         $this->add_responsive_control(
             'read_more_image_height',
             [
-                'label' => esc_html__('Height', 'text-unfold'),
-                'type'  => \Elementor\Controls_Manager::SLIDER,
-                'size_units'  => ['px', '%', 'em', 'rem', 'vw', 'custom'],
-                'range' => [
+                'label'      => esc_html__('Height', 'text-unfold'),
+                'type'       => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'em', 'rem', 'vw'],
+                'range'      => [
                     'px' => [
                         'max' => 800,
                     ],
                 ],
-                'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more-image-wrapper img' => 'height:{{SIZE}}{{UNIT}}',
+                'selectors'  => [
+                    '{{WRAPPER}} .fswp-elt--read-more-image-wrapper img' => 'height: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
 
+        // Alignment
         $this->add_responsive_control(
             'read_more_image_alignment',
             [
-                'label'       => esc_html__('Image Alignment', 'text-unfold'),
-                'type'        => Controls_Manager::CHOOSE,
-                'options'     => [
-                    'left' => [
-                        'title' => esc_html__('Left', 'text-unfold'),
-                        'icon'  => 'eicon-text-align-left'
-                    ],
-                    'center' => [
-                        'title' => esc_html__('Center', 'text-unfold'),
-                        'icon'  => 'eicon-text-align-center'
-                    ],
-                    'right' => [
-                        'title' => esc_html__('Right', 'text-unfold'),
-                        'icon'  => 'eicon-text-align-right'
-                    ],
+                'label'     => esc_html__('Image Alignment', 'text-unfold'),
+                'type'      => \Elementor\Controls_Manager::CHOOSE,
+                'options'   => [
+                    'left'   => ['title' => esc_html__('Left', 'text-unfold'), 'icon' => 'eicon-text-align-left'],
+                    'center' => ['title' => esc_html__('Center', 'text-unfold'), 'icon' => 'eicon-text-align-center'],
+                    'right'  => ['title' => esc_html__('Right', 'text-unfold'), 'icon' => 'eicon-text-align-right'],
                 ],
-                'default' => 'center',
+                'default'   => 'center',
                 'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more-image-wrapper' => 'text-align:{{VALUE}}'
+                    '{{WRAPPER}} .fswp-elt--read-more-image-wrapper' => 'text-align: {{VALUE}};',
                 ],
             ]
-
         );
 
-        /* Image Section in Style Tab Ends */
         $this->end_controls_section();
     }
+
 
     /**
      * Register Widget Title controls.
@@ -869,19 +881,19 @@ class FSWP_ELT_text_unfold extends Widget_Base
         $this->add_responsive_control(
             'icon_gap',
             [
-                'label'     => esc_html__('Icon Gap', 'text-unfold'),
-                'type'      => \Elementor\Controls_Manager::SLIDER,
-                'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more'   => 'gap:{{SIZE}}px',
-                ],
-                'default'   => [
-                    'size' => 2
-                ],
+                'label' => esc_html__('Icon Gap', 'text-unfold'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', 'em', 'rem'],
                 'range' => [
-                    'px' => [
-                        'max' => 20
-                    ]
-                ]
+                    'px' => ['min' => 0, 'max' => 50, 'step' => 1],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 5,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .fswp-elt--read-more' => 'display: flex; align-items: center; gap: {{SIZE}}{{UNIT}};',
+                ],
             ]
         );
 
