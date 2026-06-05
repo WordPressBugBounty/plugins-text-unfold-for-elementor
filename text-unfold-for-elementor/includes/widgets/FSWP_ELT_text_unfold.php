@@ -12,92 +12,47 @@ use \Elementor\Widget_Base;
 use \Elementor\Utils;
 use \Elementor\Group_Control_Image_Size;
 use \Elementor\Group_Control_Typography;
+use \Elementor\Group_Control_Background;
+use \Elementor\Group_Control_Border;
+use \Elementor\Group_Control_Box_Shadow;
 
 class FSWP_ELT_text_unfold extends Widget_Base
 {
-    /**
-     * Get widget name.
-     * 
-     * @since 1.0.0
-     * */
     public function get_name()
     {
         return 'fswp-text-unfold';
     }
 
-    /**
-     * Get widget title.
-     *
-     * @since 1.0.0
-     * */
     public function get_title()
     {
         return esc_html__('Text Unfold', 'text-unfold');
     }
 
-    /**
-     * Get widget icon.
-     *
-     * @since 1.0.0
-     * */
     public function get_icon()
     {
         return 'eicon-page-transition';
     }
 
-    /**
-     * Get widget categories.
-     * 
-     * @since 1.0.0
-     * @access public
-     * @return array Widget categories.
-     * */
     public function get_categories()
     {
         return ['fswp-widget'];
     }
 
-    /**
-     * Get widget keywords.
-     *
-     * @since 1.0.0
-     * */
     public function get_keywords()
     {
         return ['text unfold', 'read more', 'read less', 'text expand', 'text collapse'];
     }
 
-    /**
-     * Get widget styles.
-     * 
-     * @since 1.0.0
-     * @access public
-     * @return array Widget styles.
-     * */
     public function get_style_depends()
     {
         return ['fswp-elt-text-unfold-style'];
     }
 
-    /**
-     * Get widget scripts.
-     * 
-     * @since 1.0.0
-     * @access public
-     * @return array Widget scripts.
-     * */
     public function get_script_depends()
     {
         return ['fswp-elt-text-unfold-script'];
     }
 
-    /**
-     * Register widget controls.
-     * 
-     * @since 1.0.0
-     * @access protected
-     * @return void
-     * */
     protected function register_controls()
     {
         $this->register_widget_control();
@@ -108,12 +63,6 @@ class FSWP_ELT_text_unfold extends Widget_Base
         $this->register_read_more_icon_control();
     }
 
-    /**
-     * Render widget output on the frontend.
-     *
-     * @since 1.0.0
-     * @access protected
-     */
     protected function render()
     {
         $settings = $this->get_settings_for_display();
@@ -132,15 +81,12 @@ class FSWP_ELT_text_unfold extends Widget_Base
     <?php
     }
 
-    /**
-     * Register Widget controls.
-     *
-     * @since 1.0.0
-     * @access private
-     */
+    // -------------------------------------------------------------------------
+    // Content Tab
+    // -------------------------------------------------------------------------
+
     private function register_widget_control()
     {
-        /* Read More Section in Content Tab Starts */
         $this->start_controls_section(
             'read_more_content_section',
             [
@@ -164,31 +110,31 @@ class FSWP_ELT_text_unfold extends Widget_Base
         $this->add_control(
             'read_more_image',
             [
-                'label'   => esc_html__('Image', 'text-unfold'),
-                'type'    => Controls_Manager::MEDIA,
-                'default' => [
+                'label'     => esc_html__('Image', 'text-unfold'),
+                'type'      => Controls_Manager::MEDIA,
+                'default'   => [
                     'url' => Utils::get_placeholder_image_src(),
                 ],
                 'condition' => [
-                    'include_image' => 'yes'
-                ]
+                    'include_image' => 'yes',
+                ],
             ]
         );
 
         $this->add_control(
             'title',
             [
-                'label'       => esc_html__('Title', 'text-unfold'),
-                'type'        => Controls_Manager::TEXT,
-                'default'     => esc_html__('Lorem Ipsum', 'text-unfold'),
-                'dynamic'     => ['active' => true],
+                'label'   => esc_html__('Title', 'text-unfold'),
+                'type'    => Controls_Manager::TEXT,
+                'default' => esc_html__('Lorem Ipsum', 'text-unfold'),
+                'dynamic' => ['active' => true],
             ]
         );
 
         $this->add_control(
             'include_read_more',
             [
-                'label'            => esc_html__('Include Read More?', 'text-unfold'),
+                'label'        => esc_html__('Include Read More?', 'text-unfold'),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => esc_html__('Yes', 'text-unfold'),
                 'label_off'    => esc_html__('No', 'text-unfold'),
@@ -203,44 +149,35 @@ class FSWP_ELT_text_unfold extends Widget_Base
                 'label'     => esc_html__('Container Height', 'text-unfold'),
                 'type'      => Controls_Manager::SLIDER,
                 'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more-content' => 'height:{{SIZE}}px'
+                    '{{WRAPPER}} .fswp-elt--read-more-content' => 'height:{{SIZE}}px',
                 ],
-                'default' => [
-                    'size' => 100,
-                ],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 1000,
-                    ],
+                'default' => ['size' => 100],
+                'range'   => [
+                    'px' => ['min' => 0, 'max' => 1000],
                 ],
                 'condition' => [
-                    'include_read_more' => 'yes'
-                ]
+                    'include_read_more' => 'yes',
+                ],
             ]
         );
 
         $this->add_control(
             'read_more_text',
             [
-                'label'       => esc_html__('Read More Text', 'text-unfold'),
-                'type'        => Controls_Manager::TEXT,
-                'default'     => esc_html__('Read More', 'text-unfold'),
-                'condition'   => [
-                    'include_read_more' => 'yes'
-                ]
+                'label'     => esc_html__('Read More Text', 'text-unfold'),
+                'type'      => Controls_Manager::TEXT,
+                'default'   => esc_html__('Read More', 'text-unfold'),
+                'condition' => ['include_read_more' => 'yes'],
             ]
         );
 
         $this->add_control(
             'read_less_text',
             [
-                'label'       => esc_html__('Read Less Text', 'text-unfold'),
-                'type'        => Controls_Manager::TEXT,
-                'default'     => esc_html__('Read Less', 'text-unfold'),
-                'condition'   => [
-                    'include_read_more' => 'yes'
-                ]
+                'label'     => esc_html__('Read Less Text', 'text-unfold'),
+                'type'      => Controls_Manager::TEXT,
+                'default'   => esc_html__('Read Less', 'text-unfold'),
+                'condition' => ['include_read_more' => 'yes'],
             ]
         );
 
@@ -248,46 +185,44 @@ class FSWP_ELT_text_unfold extends Widget_Base
             'include_icon',
             [
                 'label'        => esc_html__('Include Icon?', 'text-unfold'),
-                'type'         => \Elementor\Controls_Manager::SWITCHER,
+                'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => esc_html__('Yes', 'text-unfold'),
                 'label_off'    => esc_html__('No', 'text-unfold'),
                 'return_value' => 'yes',
                 'default'      => 'no',
-                'condition'   => [
-                    'include_read_more' => 'yes'
-                ]
+                'condition'    => ['include_read_more' => 'yes'],
             ]
         );
 
         $this->add_control(
             'read_more_icon',
             [
-                'label' => esc_html__('Read More Icon', 'text-unfold'),
-                'type'  => \Elementor\Controls_Manager::ICONS,
-                'default' => [
-                    'value' => 'fas fa-chevron-down',
+                'label'     => esc_html__('Read More Icon', 'text-unfold'),
+                'type'      => Controls_Manager::ICONS,
+                'default'   => [
+                    'value'   => 'fas fa-chevron-down',
                     'library' => 'fa-solid',
                 ],
-                'condition'   => [
+                'condition' => [
                     'include_read_more' => 'yes',
-                    'include_icon' => 'yes'
-                ]
+                    'include_icon'      => 'yes',
+                ],
             ]
         );
 
         $this->add_control(
             'read_less_icon',
             [
-                'label' => esc_html__('Read Less Icon', 'text-unfold'),
-                'type'  => \Elementor\Controls_Manager::ICONS,
-                'default' => [
-                    'value' => 'fas fa-chevron-up',
+                'label'     => esc_html__('Read Less Icon', 'text-unfold'),
+                'type'      => Controls_Manager::ICONS,
+                'default'   => [
+                    'value'   => 'fas fa-chevron-up',
                     'library' => 'fa-solid',
                 ],
-                'condition'   => [
+                'condition' => [
                     'include_read_more' => 'yes',
-                    'include_icon' => 'yes'
-                ]
+                    'include_icon'      => 'yes',
+                ],
             ]
         );
 
@@ -301,36 +236,29 @@ class FSWP_ELT_text_unfold extends Widget_Base
             ]
         );
 
-        /* Read More Section in Content Tab Ends */
         $this->end_controls_section();
     }
 
-    /**
-     * Register Image controls.
-     *
-     * @since 1.0.0
-     * @access private
-     */
+    // -------------------------------------------------------------------------
+    // Style Tab — Image
+    // -------------------------------------------------------------------------
+
     private function register_image_control()
     {
-        /* Image Section in Style Tab Starts */
         $this->start_controls_section(
             'image_style_section',
             [
                 'label'     => esc_html__('Image', 'text-unfold'),
-                'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
-                'condition' => [
-                    'include_image' => 'yes',
-                ],
+                'tab'       => Controls_Manager::TAB_STYLE,
+                'condition' => ['include_image' => 'yes'],
             ]
         );
 
-        // Image Border Radius
         $this->add_responsive_control(
             'image_border_radius',
             [
                 'label'      => esc_html__('Image Border Radius', 'text-unfold'),
-                'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em', 'rem'],
                 'selectors'  => [
                     '{{WRAPPER}} .fswp-elt--read-more-image-wrapper img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -338,21 +266,19 @@ class FSWP_ELT_text_unfold extends Widget_Base
             ]
         );
 
-        // Image Box Shadow
         $this->add_group_control(
-            \Elementor\Group_Control_Box_Shadow::get_type(),
+            Group_Control_Box_Shadow::get_type(),
             [
                 'name'     => 'image_box_shadow',
                 'selector' => '{{WRAPPER}} .fswp-elt--read-more-image-wrapper img',
             ]
         );
 
-        // Padding
         $this->add_responsive_control(
             'image_padding',
             [
                 'label'      => esc_html__('Image Padding', 'text-unfold'),
-                'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em', 'rem'],
                 'selectors'  => [
                     '{{WRAPPER}} .fswp-elt--read-more-image-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -360,12 +286,11 @@ class FSWP_ELT_text_unfold extends Widget_Base
             ]
         );
 
-        // Margin
         $this->add_responsive_control(
             'image_margin',
             [
                 'label'      => esc_html__('Image Margin', 'text-unfold'),
-                'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em', 'rem'],
                 'selectors'  => [
                     '{{WRAPPER}} .fswp-elt--read-more-image-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -373,52 +298,41 @@ class FSWP_ELT_text_unfold extends Widget_Base
             ]
         );
 
-        // Width
         $this->add_responsive_control(
             'read_more_image_width',
             [
                 'label'      => esc_html__('Width', 'text-unfold'),
-                'type'       => \Elementor\Controls_Manager::SLIDER,
+                'type'       => Controls_Manager::SLIDER,
                 'size_units' => ['px', '%', 'em', 'rem', 'vw'],
-                'range'      => [
-                    'px' => [
-                        'max' => 1000,
-                    ],
-                ],
+                'range'      => ['px' => ['max' => 1000]],
                 'selectors'  => [
                     '{{WRAPPER}} .fswp-elt--read-more-image-wrapper img' => 'width: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
 
-        // Height
         $this->add_responsive_control(
             'read_more_image_height',
             [
                 'label'      => esc_html__('Height', 'text-unfold'),
-                'type'       => \Elementor\Controls_Manager::SLIDER,
+                'type'       => Controls_Manager::SLIDER,
                 'size_units' => ['px', '%', 'em', 'rem', 'vw'],
-                'range'      => [
-                    'px' => [
-                        'max' => 800,
-                    ],
-                ],
+                'range'      => ['px' => ['max' => 800]],
                 'selectors'  => [
                     '{{WRAPPER}} .fswp-elt--read-more-image-wrapper img' => 'height: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
 
-        // Alignment
         $this->add_responsive_control(
             'read_more_image_alignment',
             [
                 'label'     => esc_html__('Image Alignment', 'text-unfold'),
-                'type'      => \Elementor\Controls_Manager::CHOOSE,
+                'type'      => Controls_Manager::CHOOSE,
                 'options'   => [
-                    'left'   => ['title' => esc_html__('Left', 'text-unfold'), 'icon' => 'eicon-text-align-left'],
+                    'left'   => ['title' => esc_html__('Left', 'text-unfold'),   'icon' => 'eicon-text-align-left'],
                     'center' => ['title' => esc_html__('Center', 'text-unfold'), 'icon' => 'eicon-text-align-center'],
-                    'right'  => ['title' => esc_html__('Right', 'text-unfold'), 'icon' => 'eicon-text-align-right'],
+                    'right'  => ['title' => esc_html__('Right', 'text-unfold'),  'icon' => 'eicon-text-align-right'],
                 ],
                 'default'   => 'center',
                 'selectors' => [
@@ -430,16 +344,12 @@ class FSWP_ELT_text_unfold extends Widget_Base
         $this->end_controls_section();
     }
 
+    // -------------------------------------------------------------------------
+    // Style Tab — Title
+    // -------------------------------------------------------------------------
 
-    /**
-     * Register Widget Title controls.
-     *
-     * @since 1.0.0
-     * @access private
-     */
     private function register_title_control()
     {
-        /* Title Section in Style Tab Starts */
         $this->start_controls_section(
             'title_style_section',
             [
@@ -451,29 +361,25 @@ class FSWP_ELT_text_unfold extends Widget_Base
         $this->add_control(
             'title_color',
             [
-                'label'       => esc_html__('Title Color', 'text-unfold'),
-                'type'        => Controls_Manager::COLOR,
-                'selectors'   => [
-                    '{{WRAPPER}} .fswp-elt--read-more-title-wrapper .fswp-elt--read-more-title' => 'color:{{VALUE}}'
-                ]
-            ],
+                'label'     => esc_html__('Title Color', 'text-unfold'),
+                'type'      => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .fswp-elt--read-more-title-wrapper .fswp-elt--read-more-title' => 'color:{{VALUE}}',
+                ],
+            ]
         );
 
         $this->add_control(
             'read_more_title_tag',
             [
-                'label'       => esc_html__('Title Tag', 'text-unfold'),
-                'type'        => Controls_Manager::SELECT,
-                'options'     => [
-                    'h1' => 'H1',
-                    'h2' => 'H2',
-                    'h3' => 'H3',
-                    'h4' => 'H4',
-                    'h5' => 'H5',
-                    'h6' => 'H6',
+                'label'   => esc_html__('Title Tag', 'text-unfold'),
+                'type'    => Controls_Manager::SELECT,
+                'options' => [
+                    'h1' => 'H1', 'h2' => 'H2', 'h3' => 'H3',
+                    'h4' => 'H4', 'h5' => 'H5', 'h6' => 'H6',
                 ],
-                'default'     => 'h3',
-            ],
+                'default' => 'h3',
+            ]
         );
 
         $this->add_group_control(
@@ -481,118 +387,147 @@ class FSWP_ELT_text_unfold extends Widget_Base
             [
                 'name'     => 'title_typography',
                 'label'    => esc_html__('Title Typography', 'text-unfold'),
-                'selector' => '{{WRAPPER}} .fswp-elt--read-more-title-wrapper .fswp-elt--read-more-title'
-            ],
+                'selector' => '{{WRAPPER}} .fswp-elt--read-more-title-wrapper .fswp-elt--read-more-title',
+            ]
         );
 
         $this->add_responsive_control(
             'title_alignment',
             [
-                'label'       => esc_html__('Title Alignment', 'text-unfold'),
-                'type'        => Controls_Manager::CHOOSE,
-                'options'     => [
-                    'left' => [
-                        'title' => esc_html__('Left', 'text-unfold'),
-                        'icon'  => 'eicon-text-align-left'
-                    ],
-                    'center' => [
-                        'title' => esc_html__('Center', 'text-unfold'),
-                        'icon'  => 'eicon-text-align-center'
-                    ],
-                    'right' => [
-                        'title' => esc_html__('Right', 'text-unfold'),
-                        'icon'  => 'eicon-text-align-right'
-                    ],
+                'label'     => esc_html__('Title Alignment', 'text-unfold'),
+                'type'      => Controls_Manager::CHOOSE,
+                'options'   => [
+                    'left'   => ['title' => esc_html__('Left', 'text-unfold'),   'icon' => 'eicon-text-align-left'],
+                    'center' => ['title' => esc_html__('Center', 'text-unfold'), 'icon' => 'eicon-text-align-center'],
+                    'right'  => ['title' => esc_html__('Right', 'text-unfold'),  'icon' => 'eicon-text-align-right'],
                 ],
                 'default'   => 'left',
                 'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more-title-wrapper ' => 'text-align: {{VALUE}};',
+                    '{{WRAPPER}} .fswp-elt--read-more-title-wrapper' => 'text-align: {{VALUE}};',
                 ],
-            ],
+            ]
         );
+
         $this->add_responsive_control(
             'title_padding',
             [
-                'label'           => esc_html__('Title Padding', 'text-unfold'),
-                'type'            => Controls_Manager::DIMENSIONS,
-                'size_units'      => ['px', '%', 'em', 'rem', 'custom'],
-                'selectors' => [
+                'label'      => esc_html__('Title Padding', 'text-unfold'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem', 'custom'],
+                'selectors'  => [
                     '{{WRAPPER}} .fswp-elt--read-more-title-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
-            ],
+            ]
         );
 
         $this->add_responsive_control(
             'title_margin',
             [
-                'label'       => esc_html__('Title Margin', 'text-unfold'),
-                'type'        => Controls_Manager::DIMENSIONS,
-                'size_units'  => ['px', '%', 'em', 'rem', 'custom'],
-                'selectors'   => [
+                'label'      => esc_html__('Title Margin', 'text-unfold'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem', 'custom'],
+                'selectors'  => [
                     '{{WRAPPER}} .fswp-elt--read-more-title-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
-            ],
+            ]
         );
 
-        /* Title Section in Style Tab Starts */
         $this->end_controls_section();
     }
 
-    /**
-     * Register Widget Content controls.
-     *
-     * @since 1.0.0
-     * @access private
-     */
+    // -------------------------------------------------------------------------
+    // Style Tab — Content (Feature 4: background + border added)
+    // -------------------------------------------------------------------------
+
     private function register_content_control()
     {
-        /* Content Section in Style Tab Starts */
         $this->start_controls_section(
             'content_style_section',
             [
                 'label' => esc_html__('Content', 'text-unfold'),
                 'tab'   => Controls_Manager::TAB_STYLE,
-            ],
+            ]
+        );
+
+        // --- Feature 4: Content Background ---
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name'     => 'content_background',
+                'label'    => esc_html__('Background', 'text-unfold'),
+                'types'    => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .fswp-elt--read-more-content-wrapper',
+            ]
+        );
+
+        // --- Feature 4: Content Border ---
+        $this->add_group_control(
+            Group_Control_Border::get_type(),
+            [
+                'name'      => 'content_border',
+                'label'     => esc_html__('Border', 'text-unfold'),
+                'selector'  => '{{WRAPPER}} .fswp-elt--read-more-content-wrapper',
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'content_border_radius',
+            [
+                'label'      => esc_html__('Border Radius', 'text-unfold'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem'],
+                'selectors'  => [
+                    '{{WRAPPER}} .fswp-elt--read-more-content-wrapper' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        // --- Feature 4: Content Box Shadow ---
+        $this->add_group_control(
+            Group_Control_Box_Shadow::get_type(),
+            [
+                'name'     => 'content_box_shadow',
+                'label'    => esc_html__('Box Shadow', 'text-unfold'),
+                'selector' => '{{WRAPPER}} .fswp-elt--read-more-content-wrapper',
+            ]
         );
 
         $this->add_responsive_control(
             'content_padding',
             [
-                'label'       => esc_html__('Content Padding', 'text-unfold'),
-                'type'        => Controls_Manager::DIMENSIONS,
-                'size_units'  => ['px', '%', 'em', 'rem', 'custom'],
-                'selectors'   => [
+                'label'      => esc_html__('Content Padding', 'text-unfold'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem', 'custom'],
+                'selectors'  => [
                     '{{WRAPPER}} .fswp-elt--read-more-content-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
-            ],
+                'separator' => 'before',
+            ]
         );
 
         $this->add_responsive_control(
             'content_margin',
             [
-                'label'       => esc_html__('Content Margin', 'text-unfold'),
-                'type'        => Controls_Manager::DIMENSIONS,
-                'size_units'  => ['px', '%', 'em', 'rem', 'custom'],
-                'default' => [
-                    'top'    => 10,
-                    'bottom' => 10,
-                    'unit'   => 'px'
-                ],
-                'selectors'   => [
+                'label'      => esc_html__('Content Margin', 'text-unfold'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem', 'custom'],
+                'default'    => ['top' => 10, 'bottom' => 10, 'unit' => 'px'],
+                'selectors'  => [
                     '{{WRAPPER}} .fswp-elt--read-more-content-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
-            ],
+            ]
         );
 
         $this->add_control(
             'content_color',
             [
-                'label'       => esc_html__('Content Color', 'text-unfold'),
-                'type'        => Controls_Manager::COLOR,
-                'selectors'   => [
-                    '{{WRAPPER}} .fswp-elt--read-more-content' => 'color:{{VALUE}}'
-                ]
-            ],
+                'label'     => esc_html__('Content Color', 'text-unfold'),
+                'type'      => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .fswp-elt--read-more-content' => 'color:{{VALUE}}',
+                ],
+            ]
         );
 
         $this->add_group_control(
@@ -600,59 +535,118 @@ class FSWP_ELT_text_unfold extends Widget_Base
             [
                 'name'     => 'content_typography',
                 'label'    => esc_html__('Content Typography', 'text-unfold'),
-                'selector' => '{{WRAPPER}} .fswp-elt--read-more-content'
-            ],
+                'selector' => '{{WRAPPER}} .fswp-elt--read-more-content',
+            ]
         );
 
         $this->add_responsive_control(
             'content_alignment',
             [
-                'label'       => esc_html__('Alignment', 'text-unfold'),
-                'type'        => Controls_Manager::CHOOSE,
-                'options'     => [
-                    'left' => [
-                        'title' => esc_html__('Left', 'text-unfold'),
-                        'icon'  => 'eicon-text-align-left'
-                    ],
-                    'center' => [
-                        'title' => esc_html__('Center', 'text-unfold'),
-                        'icon'  => 'eicon-text-align-center'
-                    ],
-                    'right' => [
-                        'title' => esc_html__('Right', 'text-unfold'),
-                        'icon'  => 'eicon-text-align-right'
-                    ],
-                    'justify' => [
-                        'title' => esc_html__('justify', 'text-unfold'),
-                        'icon'  => 'eicon-text-align-justify'
-                    ],
+                'label'   => esc_html__('Alignment', 'text-unfold'),
+                'type'    => Controls_Manager::CHOOSE,
+                'options' => [
+                    'left'    => ['title' => esc_html__('Left', 'text-unfold'),    'icon' => 'eicon-text-align-left'],
+                    'center'  => ['title' => esc_html__('Center', 'text-unfold'),  'icon' => 'eicon-text-align-center'],
+                    'right'   => ['title' => esc_html__('Right', 'text-unfold'),   'icon' => 'eicon-text-align-right'],
+                    'justify' => ['title' => esc_html__('Justify', 'text-unfold'), 'icon' => 'eicon-text-align-justify'],
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .fswp-elt--read-more-content' => 'text-align: {{VALUE}};',
                 ],
-
-            ],
+            ]
         );
 
-        /* Post Content Section in Style Tab Starts */
+        // --- Feature 1: Gradient Overlay ---
+        $this->add_control(
+            'overlay_heading',
+            [
+                'label'     => esc_html__('Gradient Overlay', 'text-unfold'),
+                'type'      => Controls_Manager::HEADING,
+                'separator' => 'before',
+                'condition' => ['include_read_more' => 'yes'],
+            ]
+        );
+
+        $this->add_control(
+            'enable_overlay',
+            [
+                'label'        => esc_html__('Enable Fade Overlay', 'text-unfold'),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => esc_html__('Yes', 'text-unfold'),
+                'label_off'    => esc_html__('No', 'text-unfold'),
+                'return_value' => 'yes',
+                'default'      => 'no',
+                'condition'    => ['include_read_more' => 'yes'],
+            ]
+        );
+
+        $this->add_control(
+            'overlay_color',
+            [
+                'label'     => esc_html__('Overlay Color', 'text-unfold'),
+                'type'      => Controls_Manager::COLOR,
+                'default'   => '#ffffff',
+                'selectors' => [
+                    '{{WRAPPER}} .fswp-elt--read-more-overlay' => '--fswp-overlay-color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'include_read_more' => 'yes',
+                    'enable_overlay'    => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'overlay_height',
+            [
+                'label'     => esc_html__('Overlay Height', 'text-unfold'),
+                'type'      => Controls_Manager::SLIDER,
+                'range'     => ['px' => ['min' => 20, 'max' => 200]],
+                'default'   => ['size' => 60],
+                'selectors' => [
+                    '{{WRAPPER}} .fswp-elt--read-more-overlay' => 'height: {{SIZE}}px;',
+                ],
+                'condition' => [
+                    'include_read_more' => 'yes',
+                    'enable_overlay'    => 'yes',
+                ],
+            ]
+        );
+
         $this->end_controls_section();
+
     }
 
-    /**
-     * Register Widget Read More controls.
-     *
-     * @since 1.0.0
-     * @access private
-     */
+    // -------------------------------------------------------------------------
+    // Style Tab — Read More Button (Feature 3: alignment added)
+    // -------------------------------------------------------------------------
+
     private function register_read_more_control()
     {
-        /* Read More Section in Style Tab Starts */
         $this->start_controls_section(
             'read_more_style',
             [
                 'label' => esc_html__('Read More', 'text-unfold'),
-                'tab' => Controls_Manager::TAB_STYLE,
-            ],
+                'tab'   => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        // --- Feature 3: Button Alignment ---
+        $this->add_responsive_control(
+            'read_more_alignment',
+            [
+                'label'     => esc_html__('Button Alignment', 'text-unfold'),
+                'type'      => Controls_Manager::CHOOSE,
+                'options'   => [
+                    'left'   => ['title' => esc_html__('Left', 'text-unfold'),   'icon' => 'eicon-text-align-left'],
+                    'center' => ['title' => esc_html__('Center', 'text-unfold'), 'icon' => 'eicon-text-align-center'],
+                    'right'  => ['title' => esc_html__('Right', 'text-unfold'),  'icon' => 'eicon-text-align-right'],
+                ],
+                'default'   => 'left',
+                'selectors' => [
+                    '{{WRAPPER}} .fswp-elt--read-more-button-wrapper' => 'text-align: {{VALUE}};',
+                ],
+            ]
         );
 
         $this->add_responsive_control(
@@ -662,24 +656,22 @@ class FSWP_ELT_text_unfold extends Widget_Base
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em', 'rem', 'custom'],
                 'selectors'  => [
-                    '{{WRAPPER}} .fswp-elt--read-more' => 'padding:{{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}'
+                    '{{WRAPPER}} .fswp-elt--read-more' => 'padding:{{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
                 ],
                 'separator' => 'before',
-            ],
+            ]
         );
 
         $this->add_responsive_control(
             'read_more_margin',
             [
-                'label'     => esc_html__('Read More Margin', 'text-unfold'),
-                'type'      => Controls_Manager::DIMENSIONS,
+                'label'      => esc_html__('Read More Margin', 'text-unfold'),
+                'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em', 'rem', 'custom'],
-
-                'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more' => 'margin:{{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}'
-                ]
-
-            ],
+                'selectors'  => [
+                    '{{WRAPPER}} .fswp-elt--read-more' => 'margin:{{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
+                ],
+            ]
         );
 
         $this->add_group_control(
@@ -688,28 +680,27 @@ class FSWP_ELT_text_unfold extends Widget_Base
                 'name'     => 'read_more_typography',
                 'label'    => esc_html__('Read More Typography', 'text-unfold'),
                 'selector' => '{{WRAPPER}} .fswp-elt--read-more .fswp-elt--read-more-text',
-            ],
-
+            ]
         );
 
         $this->add_responsive_control(
             'read_more_border',
             [
-                'label'   => esc_html__('Read More Border', 'text-unfold'),
-                'type'    => Controls_Manager::SELECT,
-                'options' => [
+                'label'     => esc_html__('Read More Border', 'text-unfold'),
+                'type'      => Controls_Manager::SELECT,
+                'options'   => [
                     'solid'  => esc_html__('Solid', 'text-unfold'),
                     'double' => esc_html__('Double', 'text-unfold'),
                     'dotted' => esc_html__('Dotted', 'text-unfold'),
                     'dashed' => esc_html__('Dashed', 'text-unfold'),
                     'groove' => esc_html__('Groove', 'text-unfold'),
                     'ridge'  => esc_html__('Ridge', 'text-unfold'),
-                    'none'   => esc_html__('None', 'text-unfold')
+                    'none'   => esc_html__('None', 'text-unfold'),
                 ],
-                'default' => 'none',
+                'default'   => 'none',
                 'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more' => 'border-style:{{VALUE}}'
-                ]
+                    '{{WRAPPER}} .fswp-elt--read-more' => 'border-style:{{VALUE}}',
+                ],
             ]
         );
 
@@ -720,11 +711,9 @@ class FSWP_ELT_text_unfold extends Widget_Base
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'rem', 'em'],
                 'selectors'  => [
-                    '{{WRAPPER}} .fswp-elt--read-more' => 'border-width:{{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}'
+                    '{{WRAPPER}} .fswp-elt--read-more' => 'border-width:{{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
                 ],
-                'condition'  => [
-                    'read_more_border!' => 'none'
-                ]
+                'condition' => ['read_more_border!' => 'none'],
             ]
         );
 
@@ -735,30 +724,22 @@ class FSWP_ELT_text_unfold extends Widget_Base
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'rem', 'em'],
                 'selectors'  => [
-                    '{{WRAPPER}} .fswp-elt--read-more' => 'border-radius:{{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}'
+                    '{{WRAPPER}} .fswp-elt--read-more' => 'border-radius:{{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
                 ],
             ]
         );
 
         $this->start_controls_tabs('read_more_color_tabs');
 
-        $this->start_controls_tab(
-            'read_more_normal_tab',
-            [
-                'label' => esc_html__('Normal', 'text-unfold'),
-            ],
-        );
+        $this->start_controls_tab('read_more_normal_tab', ['label' => esc_html__('Normal', 'text-unfold')]);
 
         $this->add_control(
             'read_more_normal_background_color',
             [
                 'label'     => esc_html__('Background Color', 'text-unfold'),
                 'type'      => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more' => 'background-color:{{VALUE}}'
-                ],
-            ],
-
+                'selectors' => ['{{WRAPPER}} .fswp-elt--read-more' => 'background-color:{{VALUE}}'],
+            ]
         );
 
         $this->add_control(
@@ -766,11 +747,8 @@ class FSWP_ELT_text_unfold extends Widget_Base
             [
                 'label'     => esc_html__('Color', 'text-unfold'),
                 'type'      => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more' => 'color:{{VALUE}}',
-                ],
-            ],
-
+                'selectors' => ['{{WRAPPER}} .fswp-elt--read-more' => 'color:{{VALUE}}'],
+            ]
         );
 
         $this->add_control(
@@ -778,33 +756,22 @@ class FSWP_ELT_text_unfold extends Widget_Base
             [
                 'label'     => esc_html__('Border Color', 'text-unfold'),
                 'type'      => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more' => 'border-color:{{VALUE}}'
-                ],
-                'condition'  => [
-                    'read_more_border!' => 'none'
-                ]
+                'selectors' => ['{{WRAPPER}} .fswp-elt--read-more' => 'border-color:{{VALUE}}'],
+                'condition' => ['read_more_border!' => 'none'],
             ]
         );
 
         $this->end_controls_tab();
 
-        $this->start_controls_tab(
-            'read_more_hover_tab',
-            [
-                'label'     => esc_html__('Hover', 'text-unfold'),
-            ],
-        );
+        $this->start_controls_tab('read_more_hover_tab', ['label' => esc_html__('Hover', 'text-unfold')]);
 
         $this->add_control(
             'read_more_hover_background_color',
             [
                 'label'     => esc_html__('Background Color', 'text-unfold'),
                 'type'      => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more:hover' => 'background-color:{{VALUE}}',
-                ],
-            ],
+                'selectors' => ['{{WRAPPER}} .fswp-elt--read-more:hover' => 'background-color:{{VALUE}}'],
+            ]
         );
 
         $this->add_control(
@@ -812,11 +779,8 @@ class FSWP_ELT_text_unfold extends Widget_Base
             [
                 'label'     => esc_html__('Color', 'text-unfold'),
                 'type'      => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more:hover' => 'color:{{VALUE}}',
-
-                ],
-            ],
+                'selectors' => ['{{WRAPPER}} .fswp-elt--read-more:hover' => 'color:{{VALUE}}'],
+            ]
         );
 
         $this->add_control(
@@ -824,74 +788,56 @@ class FSWP_ELT_text_unfold extends Widget_Base
             [
                 'label'     => esc_html__('Border Color', 'text-unfold'),
                 'type'      => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more:hover' => 'border-color:{{VALUE}}'
-                ],
-                'condition'  => [
-                    'read_more_border!' => 'none'
-                ]
+                'selectors' => ['{{WRAPPER}} .fswp-elt--read-more:hover' => 'border-color:{{VALUE}}'],
+                'condition' => ['read_more_border!' => 'none'],
             ]
         );
 
         $this->end_controls_tab();
-
         $this->end_controls_tabs();
-
-        /* Read More Section in Style Tab Ends */
         $this->end_controls_section();
     }
 
-    /**
-     * Register Widget Read More Icon controls.
-     *
-     * @since 1.0.0
-     * @access private
-     */
+    // -------------------------------------------------------------------------
+    // Style Tab — Icon
+    // -------------------------------------------------------------------------
+
     private function register_read_more_icon_control()
     {
-        /* Icon Section in Style Tab Starts */
-
         $this->start_controls_section(
             'icon_style',
             [
-                'label' => esc_html__('Icon', 'text-unfold'),
-                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
-                'condition'   => [
+                'label'     => esc_html__('Icon', 'text-unfold'),
+                'tab'       => Controls_Manager::TAB_STYLE,
+                'condition' => [
                     'include_read_more' => 'yes',
-                    'include_icon' => 'yes'
-                ]
-            ],
+                    'include_icon'      => 'yes',
+                ],
+            ]
         );
 
         $this->add_responsive_control(
             'icon_size',
             [
                 'label'     => esc_html__('Icon Size', 'text-unfold'),
-                'type'      => \Elementor\Controls_Manager::SLIDER,
+                'type'      => Controls_Manager::SLIDER,
                 'selectors' => [
                     '{{WRAPPER}} .fswp-elt--read-more-icon i'   => 'font-size:{{SIZE}}px',
                     '{{WRAPPER}} .fswp-elt--read-more-icon svg' => 'height:{{SIZE}}px; width:{{SIZE}}px',
                 ],
-                'default'   => [
-                    'size' => 20
-                ],
+                'default' => ['size' => 20],
             ]
         );
 
         $this->add_responsive_control(
             'icon_gap',
             [
-                'label' => esc_html__('Icon Gap', 'text-unfold'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
+                'label'      => esc_html__('Icon Gap', 'text-unfold'),
+                'type'       => Controls_Manager::SLIDER,
                 'size_units' => ['px', 'em', 'rem'],
-                'range' => [
-                    'px' => ['min' => 0, 'max' => 50, 'step' => 1],
-                ],
-                'default' => [
-                    'unit' => 'px',
-                    'size' => 5,
-                ],
-                'selectors' => [
+                'range'      => ['px' => ['min' => 0, 'max' => 50, 'step' => 1]],
+                'default'    => ['unit' => 'px', 'size' => 5],
+                'selectors'  => [
                     '{{WRAPPER}} .fswp-elt--read-more' => 'display: flex; align-items: center; gap: {{SIZE}}{{UNIT}};',
                 ],
             ]
@@ -901,7 +847,7 @@ class FSWP_ELT_text_unfold extends Widget_Base
             'icon_position',
             [
                 'label'     => esc_html__('Icon Position', 'text-unfold'),
-                'type'      => \Elementor\Controls_Manager::SLIDER,
+                'type'      => Controls_Manager::SLIDER,
                 'selectors' => [
                     '{{WRAPPER}} .fswp-elt--read-more-icon i'   => 'margin-top:{{SIZE}}px',
                     '{{WRAPPER}} .fswp-elt--read-more-icon svg' => 'margin-top:{{SIZE}}px',
@@ -909,83 +855,56 @@ class FSWP_ELT_text_unfold extends Widget_Base
             ]
         );
 
-
-
         $this->start_controls_tabs('icon_color_tabs');
 
-        $this->start_controls_tab(
-            'icon_normal_tab',
-            [
-                'label' => esc_html__('Normal', 'text-unfold'),
-            ],
-        );
+        $this->start_controls_tab('icon_normal_tab', ['label' => esc_html__('Normal', 'text-unfold')]);
 
         $this->add_control(
             'icon_normal_color',
             [
                 'label'     => esc_html__('Icon Color', 'text-unfold'),
-                'type'      => \Elementor\Controls_Manager::COLOR,
+                'type'      => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .fswp-elt--read-more-icon'          => 'color:{{VALUE}}',
                     '{{WRAPPER}} .fswp-elt--read-more-icon svg path' => 'fill:{{VALUE}}',
                 ],
-            ],
-
+            ]
         );
 
         $this->end_controls_tab();
 
-        $this->start_controls_tab(
-            'icon_hover_tab',
-            [
-                'label'     => esc_html__('Hover', 'text-unfold'),
-            ],
-        );
+        $this->start_controls_tab('icon_hover_tab', ['label' => esc_html__('Hover', 'text-unfold')]);
 
         $this->add_control(
             'icon_hover_color',
             [
                 'label'     => esc_html__('Color', 'text-unfold'),
-                'type'      => \Elementor\Controls_Manager::COLOR,
+                'type'      => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .fswp-elt--read-more:hover .fswp-elt--read-more-icon'          => 'color:{{VALUE}}',
                     '{{WRAPPER}} .fswp-elt--read-more:hover .fswp-elt--read-more-icon svg path' => 'fill:{{VALUE}}',
-
                 ],
-            ],
+            ]
         );
 
         $this->end_controls_tab();
-
         $this->end_controls_tabs();
-
-        /* Read More Section in Style Tab Ends */
         $this->end_controls_section();
     }
 
+    // -------------------------------------------------------------------------
+    // Render helpers
+    // -------------------------------------------------------------------------
 
-    /**
-     * Render Read More Image on the frontend.
-     *
-     * @since 1.0.0
-     * @access private
-     */
     private function render_read_more_image($settings)
     {
     ?>
         <div class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-image-wrapper'); ?>">
             <img src="<?php echo esc_url($settings['read_more_image']['url']); ?>" />
-
         </div><!--read-more-image-wrapper-->
     <?php
     }
 
-    /**
-     * Render Read More Title on the frontend.
-     *
-     * @since 1.0.0
-     * @access private
-     */
     private function render_read_more_title($settings)
     {
     ?>
@@ -997,50 +916,50 @@ class FSWP_ELT_text_unfold extends Widget_Base
     <?php
     }
 
-    /**
-     * Render Read More Content on the frontend.
-     *
-     * @since 1.0.0
-     * @access private
-     */
     private function render_read_more_content($settings)
     {
+        $enable_overlay = !empty($settings['enable_overlay']) && $settings['enable_overlay'] === 'yes';
+
+        $wrapper_classes = FSWP_ELT_CLASS_PREFIX . 'read-more-content-wrapper';
     ?>
-        <div class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-content-wrapper'); ?>">
-            <?php
-            if (!empty($settings['full_content'])) :
-            ?>
+        <div class="<?php echo esc_attr($wrapper_classes); ?>">
+            <?php if (!empty($settings['full_content'])) : ?>
                 <div class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-content'); ?>">
                     <?php echo wp_kses_post($settings['full_content']); ?>
                 </div>
-                <?php
-                if (!empty($settings['include_read_more']) && $settings['include_read_more'] === 'yes') :
+
+                <?php if ($enable_overlay && !empty($settings['include_read_more']) && $settings['include_read_more'] === 'yes') : ?>
+                    <div class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-overlay active'); ?>"></div>
+                <?php endif; ?>
+
+                <?php if (!empty($settings['include_read_more']) && $settings['include_read_more'] === 'yes') :
                     $height    = isset($settings['height']['size']) ? $settings['height']['size'] : 100;
                     $show_icon = !empty($settings['include_icon']) && $settings['include_icon'] === 'yes' ? 'show-icon' : 'hide-icon';
                 ?>
-                    <a class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more more ') . esc_attr($show_icon); ?>"
-                        data-height="<?php echo esc_attr($height); ?>"
-                        data-more="<?php echo esc_attr($settings['read_more_text'] ?? 'Read More'); ?>"
-                        data-less="<?php echo esc_attr($settings['read_less_text'] ?? 'Read Less'); ?>">
-                        <span class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-text'); ?>">
-                            <?php echo esc_html($settings['read_more_text'] ?? 'Read More'); ?>
-                        </span>
-                        <?php if (!empty($settings['include_icon']) && !empty($settings['read_more_icon']['value'])) : ?>
-                            <span class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-icon ') . 'more'; ?>">
-                                <?php \Elementor\Icons_Manager::render_icon($settings['read_more_icon'], ['aria-hidden' => 'true']); ?>
+                    <div class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-button-wrapper'); ?>">
+                        <a class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more more ') . esc_attr($show_icon); ?>"
+                            data-height="<?php echo esc_attr($height); ?>"
+                            data-more="<?php echo esc_attr($settings['read_more_text'] ?? 'Read More'); ?>"
+                            data-less="<?php echo esc_attr($settings['read_less_text'] ?? 'Read Less'); ?>"
+                            aria-expanded="false">
+                            <span class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-text'); ?>">
+                                <?php echo esc_html($settings['read_more_text'] ?? 'Read More'); ?>
                             </span>
-                        <?php endif; ?>
-                        <?php if (!empty($settings['include_icon']) && !empty($settings['read_less_icon']['value'])) : ?>
-                            <span class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-icon ') . 'less'; ?>">
-                                <?php \Elementor\Icons_Manager::render_icon($settings['read_less_icon'], ['aria-hidden' => 'true']); ?>
-                            </span>
-                        <?php endif; ?>
-                    </a>
-            <?php
-                endif;
-            endif;
-            ?>
+                            <?php if (!empty($settings['include_icon']) && !empty($settings['read_more_icon']['value'])) : ?>
+                                <span class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-icon ') . 'more'; ?>">
+                                    <?php \Elementor\Icons_Manager::render_icon($settings['read_more_icon'], ['aria-hidden' => 'true']); ?>
+                                </span>
+                            <?php endif; ?>
+                            <?php if (!empty($settings['include_icon']) && !empty($settings['read_less_icon']['value'])) : ?>
+                                <span class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-icon ') . 'less'; ?>">
+                                    <?php \Elementor\Icons_Manager::render_icon($settings['read_less_icon'], ['aria-hidden' => 'true']); ?>
+                                </span>
+                            <?php endif; ?>
+                        </a>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
         </div><!--read-more-content-wrapper-->
-<?php
+    <?php
     }
 }

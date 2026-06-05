@@ -23,32 +23,47 @@ jQuery(function ($) {
         }
 
         bindEvents() {
-            let content = this.findElement('.fswp-elt--read-more-content');
+            let content        = this.findElement('.fswp-elt--read-more-content');
+            let overlay        = this.findElement('.fswp-elt--read-more-overlay');
             let readMoreButton = this.elements.$readMoreSelector;
-            let readMoreText = this.elements.$readMoreSelector.data('more');
-            let readLessText = this.elements.$readMoreSelector.data('less');
-            let handler = this;
+            let readMoreText   = readMoreButton.data('more');
+            let readLessText   = readMoreButton.data('less');
+            let handler        = this;
+
+            // Auto-hide button if content is shorter than container height
+            let containerHeight = parseInt(readMoreButton.data('height')) || 100;
+            let naturalHeight   = content.css('height', 'auto').height();
+            content.height(containerHeight);
+            if (naturalHeight <= containerHeight) {
+                readMoreButton.closest('.fswp-elt--read-more-button-wrapper').hide();
+                overlay.hide();
+                content.css('overflow', 'visible');
+                return;
+            }
 
             readMoreButton.on('click', function (e) {
                 e.preventDefault();
-                let containerHeight = handler.elements.$readMoreSelector.data('height');
+                let btnHeight = parseInt(handler.elements.$readMoreSelector.data('height')) || 100;
                 $(this).toggleClass('more');
+
                 if (!$(this).hasClass('more')) {
-                    let orginalHeight = content.css('height', 'auto').height();
-                    content.height(containerHeight);
-                    $(content).animate({
-                        height: orginalHeight
-                    }, 200);
+                    // Expanding
+                    let fullHeight = content.css('height', 'auto').height();
+                    content.height(btnHeight);
+                    overlay.fadeOut(200);
+                    content.animate({ height: fullHeight }, 200);
                     $(this).find('.fswp-elt--read-more-text').html(readLessText);
+                    $(this).attr('aria-expanded', 'true');
                     if ($(this).hasClass('show-icon')) {
                         $(this).find('.fswp-elt--read-more-icon.more').hide();
                         $(this).find('.fswp-elt--read-more-icon.less').show();
                     }
                 } else {
-                    content.animate({
-                        height: containerHeight,
-                    }, 200);
+                    // Collapsing
+                    overlay.fadeIn(200);
+                    content.animate({ height: btnHeight }, 200);
                     $(this).find('.fswp-elt--read-more-text').html(readMoreText);
+                    $(this).attr('aria-expanded', 'false');
                     if ($(this).hasClass('show-icon')) {
                         $(this).find('.fswp-elt--read-more-icon.more').show();
                         $(this).find('.fswp-elt--read-more-icon.less').hide();
@@ -58,14 +73,13 @@ jQuery(function ($) {
         }
     }
 
-
     if (window.elementorFrontend) {
         elementorFrontend.elementsHandler.attachHandler('fswp-text-unfold', TextUnfoldWidgetHandlerClass);
         if (elementorFrontend.isEditMode()) {
             elementor.hooks.addAction('panel/open_editor/widget/fswp-text-unfold', function (panel, model, view) {
-                let height = model.attributes.settings.attributes.height['size']
+                let height = model.attributes.settings.attributes.height['size'];
                 panel.$el.on('click change keyup keydown input', function () {
-                    let newHeight = model.attributes.settings.attributes.height['size']
+                    let newHeight = model.attributes.settings.attributes.height['size'];
                     if (height !== newHeight) {
                         height = newHeight;
                         $(view.el).find('.fswp-elt--read-more').data('height', height);
@@ -77,8 +91,4 @@ jQuery(function ($) {
             });
         }
     }
-
 });
-
-
-

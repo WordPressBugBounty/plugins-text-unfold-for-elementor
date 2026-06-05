@@ -2,10 +2,12 @@
   box-sizing: border-box;
 }
 
-/*Read More Style*/
-
 .fswp-elt--read-more {
   cursor: pointer;
+}
+
+.fswp-elt--read-more-content-wrapper {
+  position: relative;
 }
 
 .fswp-elt--read-more-content {
@@ -14,6 +16,22 @@
 
 .fswp-elt--read-more-content p:last-of-type {
   margin-bottom: 0;
+}
+
+/* Gradient overlay */
+.fswp-elt--read-more-overlay {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--fswp-overlay-color, #ffffff));
+}
+
+.fswp-elt--read-more-overlay.active {
+  display: block;
 }
 
 .fswp-elt--read-more-main-wrapper .fswp-elt--read-more {
