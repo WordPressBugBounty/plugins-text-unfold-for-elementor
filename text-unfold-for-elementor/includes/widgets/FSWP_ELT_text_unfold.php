@@ -149,7 +149,7 @@ class FSWP_ELT_text_unfold extends Widget_Base
                 'label'     => esc_html__('Container Height', 'text-unfold'),
                 'type'      => Controls_Manager::SLIDER,
                 'selectors' => [
-                    '{{WRAPPER}} .fswp-elt--read-more-content' => 'height:{{SIZE}}px',
+                    '{{WRAPPER}} .fswp-elt--read-more-content.fswp-elt--rm-active' => 'height:{{SIZE}}px',
                 ],
                 'default' => ['size' => 100],
                 'range'   => [
@@ -923,8 +923,10 @@ class FSWP_ELT_text_unfold extends Widget_Base
         $wrapper_classes = FSWP_ELT_CLASS_PREFIX . 'read-more-content-wrapper';
     ?>
         <div class="<?php echo esc_attr($wrapper_classes); ?>">
-            <?php if (!empty($settings['full_content'])) : ?>
-                <div class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-content'); ?>">
+            <?php if (!empty($settings['full_content'])) :
+                $rm_active = (!empty($settings['include_read_more']) && $settings['include_read_more'] === 'yes') ? ' ' . FSWP_ELT_CLASS_PREFIX . 'rm-active' : '';
+            ?>
+                <div class="<?php echo esc_attr(FSWP_ELT_CLASS_PREFIX . 'read-more-content' . $rm_active); ?>">
                     <?php echo wp_kses_post($settings['full_content']); ?>
                 </div>
 

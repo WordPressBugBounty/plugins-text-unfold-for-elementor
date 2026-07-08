@@ -5,8 +5,8 @@ Tags: elementor, elementor addons, text expand, text unfold, read more
 Requires PHP: 7.0
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 1.2.0
-Elementor tested up to: 4.1.1
+Stable tag: 1.2.1
+Elementor tested up to: 4.1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,9 @@ Step 2: After installation, click the "activate" button to activate the plugin.
 1. Screenshot of Text Unfold widget options.
 
 == Changelog ==
+
+= 1.2.1 =
+* Fix: When "Include Read More" is set to No, content no longer gets a forced 100px inline height. The container height CSS now only applies when the Read More button is active, and the JS no longer touches content height when there's no button to expand it. Content behaves like a normal text block again.
 
 = 1.2.0 =
 * New: Gradient fade overlay at the bottom of collapsed content, with configurable color and height.

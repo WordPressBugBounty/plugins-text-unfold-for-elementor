@@ -26,6 +26,13 @@ jQuery(function ($) {
             let content        = this.findElement('.fswp-elt--read-more-content');
             let overlay        = this.findElement('.fswp-elt--read-more-overlay');
             let readMoreButton = this.elements.$readMoreSelector;
+
+            // No Read More button rendered (option disabled) — leave content untouched
+            if (!readMoreButton.length) {
+                content.css({ height: 'auto', overflow: 'visible' });
+                return;
+            }
+
             let readMoreText   = readMoreButton.data('more');
             let readLessText   = readMoreButton.data('less');
             let handler        = this;
